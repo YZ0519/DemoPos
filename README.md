@@ -2,6 +2,8 @@
 
 A full-stack **Point of Sale (POS)** system built with **.NET 9** and **React 19**. This repository is a live demo — it ships with six months of pre-seeded showcase data so you can explore reports, charts, and workflows right after setup.
 
+This repository was published as a single curated commit from a private development repo. Active development continues in the production deployment.
+
 Demo Website: https://demopos-react.premiumasp.net/
 | Account | Email | Password | Role |
 |---|---|---|---|
@@ -12,6 +14,16 @@ Demo Website: https://demopos-react.premiumasp.net/
 | Staff | `staff@demopos.com` | `staff1234` | User (read-only) |
 
 ---
+## Screenshots
+
+### Admin Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### POS Terminal
+![POS Terminal](screenshots/pos-terminal.png)
+
+### Sales Reports
+![Sales Reports](screenshots/sales-reports.png)
 
 ## Features
 
@@ -63,7 +75,7 @@ Create `demopos-api/DemoPos.Api/appsettings.json` (this file is git-ignored):
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=DemoPos;User Id=sa;Password=your_password;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=localhost;Database=DemoPos;User Id=demopos_app;Password=your_password;TrustServerCertificate=True;"
   },
   "Jwt": {
     "Key": "your-secret-key-here-must-be-at-least-32-characters",
@@ -130,7 +142,6 @@ The frontend is available at **`https://localhost:3000`** (self-signed cert — 
 
 | Account | Email | Password | Role |
 |---|---|---|---|
-| Admin | `admin@demopos.com` | `admin1234` | Admin (full access) |
 | Demo | `demo@demopos.com` | `demo1234` | User (read-only) |
 | Cashier | `cashier@demopos.com` | `cashier1234` | User (read-only) |
 | Cashier 2 | `cashier2@demopos.com` | `cashier1234` | User (read-only) |
