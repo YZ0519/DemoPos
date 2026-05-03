@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Switch Tailwind v4's dark: variant from OS media-query to class strategy */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Light theme (default) ─────────────────────────────────────── */
+:root {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f9fafb;
+  --bg-surface:    #ffffff;
+  --border-color:  #e5e7eb;
+  --text-primary:  #111827;
+  --text-secondary: #6b7280;
+  --text-muted:    #9ca3af;
+}
+
+/* ── Dark theme (midnight-blue) ────────────────────────────────── */
+.dark {
+  --bg-primary:    #0f172a;
+  --bg-secondary:  #1e293b;
+  --bg-surface:    #1e293b;
+  --border-color:  #334155;
+  --text-primary:  #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted:    #64748b;
+}
+
+/* Let browser UI elements (scrollbars, form controls) match the theme */
+html.dark {
+  color-scheme: dark;
+}
+
+@media print {
+  /* Hide AppLayout sidebar, header, and screen-only controls */
+  .print\:hidden { display: none !important; }
+  /* Clean white background regardless of theme */
+  body { background: white !important; color: black !important; }
+}

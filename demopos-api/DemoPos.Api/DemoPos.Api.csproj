@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>DemoPos.Api</AssemblyName>
+    <RootNamespace>DemoPos.Api</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    ============================================================
+    Publish target: build React frontend and include in wwwroot/
+    ============================================================
+    Runs ONLY during `dotnet publish` (BeforeTargets="BeforePublish").
+    Steps:
+      1. npm run build in the frontend project directory.
+      2. Collect every file produced in dist/ as Content items
+         that will be copied into wwwroot/ in the publish output.
+         Files inside dist/media/ are excluded so the backend's
+         wwwroot/media/ folder (uploaded images) is never clobbered.
+    The `cmd /c` wrapper is required on Windows because npm is a
+    .cmd script and Exec cannot invoke it directly without a shell.
+  -->
+  <PropertyGroup>
+    <FrontendDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../demopos-frontend'))</FrontendDir>
+    <FrontendDistDir>$(FrontendDir)/dist</FrontendDistDir>
+  </PropertyGroup>
+
+  <!--
+    BuildReactApp: runs ONLY during `dotnet publish`.
+    1. Executes `npm run build` in the frontend project.
+    2. Physically copies dist/ output into wwwroot/ inside this project.
+       The SDK.Web automatically includes everything under wwwroot/ in the
+       publish output, so no dynamic Content items are needed.
+       dist/media/ is excluded to protect uploaded product images.
+  -->
+  <Target Name="BuildReactApp" BeforeTargets="BeforePublish">
+    <Message Text="Building React frontend from $(FrontendDir) ..." Importance="high" />
+    <Exec WorkingDirectory="$(FrontendDir)" Command="cmd /c npm run build" />
+    <Message Text="React build complete. Copying dist/ → wwwroot/ ..." Importance="high" />
+    <ItemGroup>
+      <_ReactDistFiles Include="$(FrontendDistDir)/**/*.*" Exclude="$(FrontendDistDir)/media/**" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_ReactDistFiles)" DestinationFiles="@(_ReactDistFiles->'$(MSBuildProjectDirectory)/wwwroot/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Message Text="Frontend files copied to wwwroot/." Importance="high" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.*" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+    <PackageReference Include="MailKit" Version="4.15.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\" />
+  </ItemGroup>
+
+</Project>

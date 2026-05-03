@@ -1,0 +1,6 @@
+@QPos.Api_HostAddress = http://localhost:5001
+
+GET {{QPos.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
